@@ -7,9 +7,7 @@ function getTotalBooksCount(books) {
 
 //return # that represents # of account objects in array
 function getTotalAccountsCount(accounts) {
-  let sum = 0;
-  accounts.forEach(account => sum += 1);
-  return sum;
+  return accounts.reduce((counter, obj) => accounts ? counter += 1 : counter, 0);
 }
 
 //return # that represents # of books that are currently checked out
@@ -66,7 +64,6 @@ function getMostPopularAuthors(books, authors) {
   let results = [];
   for (let author of authors){
     let authorName = `${author.name.first} ${author.name.last}`;
-    
     //create accumulator
     let bookCount = 0;
     for (let book of books){   
@@ -79,19 +76,22 @@ function getMostPopularAuthors(books, authors) {
     let result = { name: authorName, count: bookCount };
     results.push(result);
   }
-  results.sort((authorA, authorB) => authorA.count > authorB.count ? -1 : 1);
-  results.splice(5);
-  console.log(results);
-  return results;
+  const sortedResults = sortAndSpliceArray(results);
+  console.log(sortedResults);
+  return sortedResults;
 }
 
-
+//helper function
+function sortAndSpliceArray(results){
+  results.sort((authorA, authorB) => authorA.count > authorB.count ? -1 : 1);
+  results.splice(5);
+  return results;
+}
 
 function getMostPopularAuthors(books, authors) {
   let results = [];
   for (let { id, name } of authors){
     let authorName = `${name.first} ${name.last}`;
-    
     //create accumulator
     let bookCount = 0;
     for (let { authorId, borrows } of books){   
@@ -104,10 +104,9 @@ function getMostPopularAuthors(books, authors) {
     let result = { name: authorName, count: bookCount };
     results.push(result);
   }
-  results.sort((authorA, authorB) => authorA.count > authorB.count ? -1 : 1);
-  results.splice(5);
-  console.log(results);
-  return results;
+  const sortedResults = sortAndSpliceArray(results);
+  console.log(sortedResults);
+  return sortedResults;
 }
 
 module.exports = {
